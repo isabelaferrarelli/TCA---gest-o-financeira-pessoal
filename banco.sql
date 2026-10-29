@@ -22,13 +22,8 @@ CREATE TABLE contas_carteira(
     cpf_usuario INTEGER REFERENCES usuario(cpf)
 );
 
-CREATE TABLE tipo_categoria(
-    id SERIAL PRIMARY KEY,
-    nome VARCHAR(20)NOT NULL UNIQUE
-);
-
 CREATE TABLE categorias(
-    id SERIAL PRIMARY KEY, 
+    id INTEGER PRIMARY KEY, 
     nome VARCHAR(50),
     tipo INTEGER REFERENCES tipo_categoria(id),
     cpf_usuario INTEGER REFERENCES usuario(cpf)
@@ -51,9 +46,31 @@ CREATE TABLE transacoes(
     pago BOOLEAN NOT NULL
 );
 
+CREATE TABLE metas(
+    id SERIAL PRIMARY KEY,
+    id_categoria INTEGER REFERENCES categorias(id),
+    cpf_usuario INTEGER REFERENCES usuario(cpf),
+    valor_limite NUMERIC (12,2),
+);
+
 
 INSERT INTO tipo_categoria(nome)
 VALUES
 ("Receita"),
 ("Despesa"),
 ("Investimento");
+
+INSERT INTO categorias(id, nome)
+VALUES
+(1, 'Moradia'), 
+(2, 'Alimentacao'),
+(3, 'Transporte'),
+(4, 'Saude'),
+(5, 'Educacao'), 
+(6, 'Lazer'),
+(7, 'Assinaturas'),
+(8, 'Dividas e parcelamentos'),
+(9, 'Poupanca e investimentos'),
+(10, 'Compras')
+(11, 'Outros');
+
