@@ -9,28 +9,26 @@ CREATE TABLE usuario(
 );
 
 CREATE TABLE tipo_conta(
-    id SERIAL PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     nome VARCHAR(20)NOT NULL UNIQUE
 );
-
 
 CREATE TABLE contas_carteira(
     id SERIAL PRIMARY KEY,
     nome VARCHAR(100),
     saldo NUMERIC(12,2),
     tipo INTEGER REFERENCES tipo_conta(id),
-    cpf_usuario INTEGER REFERENCES usuario(cpf)
+    cpf_usuario VARCHAR(11) REFERENCES usuario(cpf)
 );
 
 CREATE TABLE categorias(
     id INTEGER PRIMARY KEY, 
     nome VARCHAR(50),
-    tipo INTEGER REFERENCES tipo_categoria(id),
-    cpf_usuario INTEGER REFERENCES usuario(cpf)
+    cpf_usuario VARCHAR(11) REFERENCES usuario(cpf)
 );
 
 CREATE TABLE tipo_transacoes(
-    id SERIAL PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     nome VARCHAR(20) NOT NULL UNIQUE
 );
 
@@ -40,7 +38,7 @@ CREATE TABLE transacoes(
     valor NUMERIC(12,2),
     id_categoria INTEGER REFERENCES categorias(id),
     id_conta INTEGER REFERENCES contas_carteira(id),
-    cpf_usuario INTEGER REFERENCES usuario(cpf),
+    cpf_usuario VARCHAR(11) REFERENCES usuario(cpf),
     tipo INTEGER REFERENCES tipo_transacoes(id),
     data_transacao DATE NOT NULL,
     pago BOOLEAN NOT NULL
@@ -49,16 +47,22 @@ CREATE TABLE transacoes(
 CREATE TABLE metas(
     id SERIAL PRIMARY KEY,
     id_categoria INTEGER REFERENCES categorias(id),
-    cpf_usuario INTEGER REFERENCES usuario(cpf),
-    valor_limite NUMERIC (12,2),
+    cpf_usuario VARCHAR(11) REFERENCES usuario(cpf),
+    valor_limite NUMERIC (12,2)
 );
 
+INSERT INTO tipo_conta(id, nome)
+VALUES 
+(1, 'Corrente'),
+(2, 'Poupanca'),
+(3, 'Carteira'),
+(4, 'Investimento');
 
-INSERT INTO tipo_categoria(nome)
+INSERT INTO tipo_transacoes(id, nome)
 VALUES
-("Receita"),
-("Despesa"),
-("Investimento");
+(1, 'Receita'),
+(2, 'Despesa'),
+(3, 'Transferencia');
 
 INSERT INTO categorias(id, nome)
 VALUES
@@ -71,6 +75,5 @@ VALUES
 (7, 'Assinaturas'),
 (8, 'Dividas e parcelamentos'),
 (9, 'Poupanca e investimentos'),
-(10, 'Compras')
+(10, 'Compras'),
 (11, 'Outros');
-
