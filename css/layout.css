@@ -1,0 +1,75 @@
+/* Define o layout da página, a estrutura principal
+Também define header, nav, main, footer, etc 
+Este arquivo normalmente é único/específico de um projeto 
+e não é reutilizado (Exceto em sites com estrutura semelhante) */
+
+.menu {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 60px; 
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: #790da4;
+    color: white;
+    padding: 15px;  
+    height: 60px;  
+    font-size: 15px;
+}
+
+h1 {
+    color:#e4b7ef
+}
+
+header button{
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 24px; 
+}
+
+nav {
+    display: none;
+    background: #9949af;
+}
+
+nav.ativo {
+    display: block;
+}
+
+nav a {
+    display: block;
+    color: white;
+    padding: 15px;
+    border-bottom: 1px solid #bf7ed0;
+    text-decoration: none;
+}
+nav a:hover {
+    background: #7540b1;
+}
+
+section {
+    padding: 10px ; 
+    min-height: 100vh ;
+    text-align: center;
+    scroll-margin-top: 60px; 
+}
+
+header .logo{
+width: auto;
+height: 50px;
+border-radius: var(--radius);
+}
+
+footer {
+    font-size: 11px;
+}
+
+body {
+    font-size: 16px;
+}

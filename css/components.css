@@ -1,0 +1,43 @@
+/* Este arquivo define os componentes da interface
+ * Um componente pode ser reutilizado em vários pontos da página, ou mesmo em outros projetos
+ * Exemplos: galeria de imagens, cards, tabelas, botões etc 
+ */
+
+/* ----Gallery ----
+Galeria de elementos que serão exibidos lado a lado 
+e organizados por um grid */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px; 
+
+    background-color: var(--background-color);
+    padding: 10px;
+    border-radius: var(--radius);
+    border: var(--border-width) solid var(--highlight-color);
+}
+
+
+/* ----Card----
+Os elementos dentro do card serão exibidos em uma coluna */
+.card {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 5px;
+    border: var(--border-width) outset var(--highlight-color);
+    border-radius: var(--radius);
+    background-color: var(--background-color);
+     
+}
+.card h3{
+    border-bottom: var(--border-width) solid var(--highlight-color);
+}
+.card p, .card figcaption{
+    text-indent: 2ch;
+}
+.card img{
+    border-radius: var(--radius);
+}
+

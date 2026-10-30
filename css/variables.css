@@ -1,0 +1,22 @@
+/* Variáveis CSS 
+As váriáveis armazenam valores que podem ser reutilizados 
+em todo o projeto. Ajudam a manter a consistência e 
+facilitam a manutenção do código.
+Esta estrutura pode ser reutilizada em outros projetos, 
+mas os valores são específicos para este projeto.
+*/
+
+:root {
+    /* Cores */
+    --letter-color: #801cb9;
+    --background-color: #bf7ed0;
+    --bodybackground-color: #bf7ed0;
+    --highlight-color:rgb(195, 17, 205);
+    
+    /* Fontes */
+    --font-base: "IM Fell Double Pica", serif;
+    
+    /* Bordas */
+    --radius: 8px;        /* cantos com o mesmo arredondamento em vários elementos */
+    --border-width: 10px;  /* Largura das bordas igual em vários elementos */
+    }

@@ -1,0 +1,48 @@
+/* customização de elementos básicos (normalmente tags)
+html, body, p, h1, h2, h3, h4, h5, h6, table, th, td
+Este arquivo pode ser reutilizado (com poucas modificações) 
+em outros projetos
+*/
+
+html {
+  scroll-behavior: smooth; /* Rolagem suave ao clicar em âncoras */
+  text-size-adjust: 100%; /* Melhora renderização de texto no mobile */
+  font-size: clamp(16px, 0.6vw + 0.85rem, 22px);
+}
+
+body{
+    color:var(--letter-color);
+    background-color: var(--bodybackground-color);
+    font-family: var(--font-base);  
+}
+
+section {
+    scroll-margin-top: calc(6.5rem + 2*var(--border-width)); /* Ajusta a posição de ancoragem para evitar sobreposição com o topo fixo */
+}
+
+/* garantir que imagens e elementos de mídia sejam responsivos */
+img, picture, video, canvas, svg {
+  max-width: 100%;
+  display: block;
+}
+
+/* alguns navegadores possuem fontes padrão. A regra abaixo garante que os elementos herdem a fonte do elemento pai */
+input, button, textarea, select {
+  font: inherit;
+}
+
+/* Ajustes de parágrafos e títulos */
+p, h1, h2, h3, h4, h5, h6, a {
+  overflow-wrap: break-word;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+th, td {
+  text-align: left;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+}
