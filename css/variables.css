@@ -8,10 +8,12 @@ mas os valores são específicos para este projeto.
 
 :root {
     /* Cores */
-    --letter-color: #801cb9;
-    --background-color: #bf7ed0;
-    --bodybackground-color: #bf7ed0;
+    --letter-color: #3b0b58;
+    --background-color: #cda3d8;
+    --bodybackground-color: #cda3d8;
     --highlight-color:rgb(195, 17, 205);
+    --borda: #7540b1;
+    --nav-color: #9949af;
     
     /* Fontes */
     --font-base: "IM Fell Double Pica", serif;

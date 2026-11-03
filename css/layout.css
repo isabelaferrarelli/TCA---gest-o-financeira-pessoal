@@ -22,7 +22,7 @@ header {
 }
 
 h1 {
-    color:#e4b7ef
+    color: var(--background-color)
 }
 
 header button{
@@ -30,7 +30,7 @@ header button{
     border: none;
     color: white;
     cursor: pointer;
-    font-size: 24px; 
+    font-size: 27px; 
 }
 
 nav {
@@ -71,5 +71,5 @@ footer {
 }
 
 body {
-    font-size: 16px;
+    font-size: 17px;
 }

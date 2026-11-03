@@ -46,3 +46,15 @@ th, td {
   padding: 0.5rem;
   border-bottom: 1px solid #ddd;
 }
+
+p {
+  text-indent: 40px;
+}
+
+#meio {
+  text-align: center;
+}
+
+#title1 {
+  text-align: center;
+}

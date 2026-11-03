@@ -41,3 +41,11 @@ Os elementos dentro do card serão exibidos em uma coluna */
     border-radius: var(--radius);
 }
 
+.cb {
+    border: 3px;
+    border-radius: 20px;
+    width: 80vw;
+    height: 455px;
+    margin: 30px auto;
+    background-color: var(--nav-color);
+}

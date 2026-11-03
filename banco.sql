@@ -15,15 +15,15 @@ CREATE TABLE tipo_conta(
 
 CREATE TABLE contas_carteira(
     id SERIAL PRIMARY KEY,
-    nome VARCHAR(100),
-    saldo NUMERIC(12,2),
-    tipo INTEGER REFERENCES tipo_conta(id),
-    cpf_usuario VARCHAR(11) REFERENCES usuario(cpf)
+    nome VARCHAR(100) NOT NULL,
+    saldo NUMERIC(12,2) NOT NULL DEFAULT 0,
+    tipo INTEGER NOT NULL REFERENCES tipo_conta(id),
+    cpf_usuario VARCHAR(11) NOT NULL REFERENCES usuario(cpf)
 );
 
 CREATE TABLE categorias(
     id INTEGER PRIMARY KEY, 
-    nome VARCHAR(50),
+    nome VARCHAR(50) NOT NULL,
     cpf_usuario VARCHAR(11) REFERENCES usuario(cpf)
 );
 
@@ -35,20 +35,21 @@ CREATE TABLE tipo_transacoes(
 CREATE TABLE transacoes(
     id SERIAL PRIMARY KEY,
     descricao VARCHAR(100),
-    valor NUMERIC(12,2),
+    valor NUMERIC(12,2) NOT NULL CHECK (valor > 0),
     id_categoria INTEGER REFERENCES categorias(id),
-    id_conta INTEGER REFERENCES contas_carteira(id),
-    cpf_usuario VARCHAR(11) REFERENCES usuario(cpf),
-    tipo INTEGER REFERENCES tipo_transacoes(id),
+    id_conta INTEGER NOT NULL REFERENCES contas_carteira(id),
+    cpf_usuario VARCHAR(11) NOT NULL REFERENCES usuario(cpf),
+    tipo INTEGER NOT NULL REFERENCES tipo_transacoes(id),
     data_transacao DATE NOT NULL,
-    pago BOOLEAN NOT NULL
+    pago BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE metas(
     id SERIAL PRIMARY KEY,
-    id_categoria INTEGER REFERENCES categorias(id),
-    cpf_usuario VARCHAR(11) REFERENCES usuario(cpf),
-    valor_limite NUMERIC (12,2)
+    id_categoria INTEGER NOT NULL REFERENCES categorias(id),
+    cpf_usuario VARCHAR(11) NOT NULL REFERENCES usuario(cpf),
+    valor_limite NUMERIC (12,2) NOT NULL CHECK (valor_limite > 0),
+    UNIQUE (cpf_usuario, id_categoria)
 );
 
 INSERT INTO tipo_conta(id, nome)
