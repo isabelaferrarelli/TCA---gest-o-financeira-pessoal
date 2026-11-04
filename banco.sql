@@ -23,8 +23,7 @@ CREATE TABLE contas_carteira(
 
 CREATE TABLE categorias(
     id INTEGER PRIMARY KEY, 
-    nome VARCHAR(50) NOT NULL,
-    cpf_usuario VARCHAR(11) REFERENCES usuario(cpf)
+    nome VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE tipo_transacoes(
@@ -62,8 +61,7 @@ VALUES
 INSERT INTO tipo_transacoes(id, nome)
 VALUES
 (1, 'Receita'),
-(2, 'Despesa'),
-(3, 'Transferencia');
+(2, 'Despesa');
 
 INSERT INTO categorias(id, nome)
 VALUES
