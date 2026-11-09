@@ -3,7 +3,7 @@ CREATE DATABASE banco;
 \c banco;
 
 CREATE TABLE usuario(
-    cpf VARCHAR(11) PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE
 );
@@ -18,7 +18,7 @@ CREATE TABLE contas_carteira(
     nome VARCHAR(100) NOT NULL,
     saldo NUMERIC(12,2) NOT NULL DEFAULT 0,
     tipo INTEGER NOT NULL REFERENCES tipo_conta(id),
-    cpf_usuario VARCHAR(11) NOT NULL REFERENCES usuario(cpf)
+    id_usuario INTEGER NOT NULL REFERENCES usuario(cpf)
 );
 
 CREATE TABLE categorias(
@@ -37,7 +37,7 @@ CREATE TABLE transacoes(
     valor NUMERIC(12,2) NOT NULL CHECK (valor > 0),
     id_categoria INTEGER REFERENCES categorias(id),
     id_conta INTEGER NOT NULL REFERENCES contas_carteira(id),
-    cpf_usuario VARCHAR(11) NOT NULL REFERENCES usuario(cpf),
+    id_usuario INTEGER NOT NULL REFERENCES usuario(cpf),
     tipo INTEGER NOT NULL REFERENCES tipo_transacoes(id),
     data_transacao DATE NOT NULL,
     pago BOOLEAN NOT NULL DEFAULT FALSE
@@ -46,7 +46,7 @@ CREATE TABLE transacoes(
 CREATE TABLE metas(
     id SERIAL PRIMARY KEY,
     id_categoria INTEGER NOT NULL REFERENCES categorias(id),
-    cpf_usuario VARCHAR(11) NOT NULL REFERENCES usuario(cpf),
+    id_usuario INTEGER NOT NULL REFERENCES usuario(cpf),
     valor_limite NUMERIC (12,2) NOT NULL CHECK (valor_limite > 0),
     UNIQUE (cpf_usuario, id_categoria)
 );

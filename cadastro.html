@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Abrir uma conta</title>
+
+    <link rel="stylesheet" type="text/css" href="css/login.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=IM+Fell+Double+Pica:ital@0;1&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Slabo+27px&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+  <main class="card">
+    <h1>Abrir uma conta</h1>
+
+    <form id="signup-form" novalidate>
+      <label for="email">E-mail</label>
+      <input id="email" type="email" autocomplete="email" required>
+
+      <label for="password">Senha</label>
+      <input id="password" type="password" autocomplete="new-password" minlength="6" placeholder="Mínimo 6 caracteres" required>
+
+      <button type="submit" id="submit-btn">Criar conta</button>
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+    </form>
+
+    <p class="alt">Já tem conta? <a href="login.html">Entrar</a></p>
+    <p class="alt"><a href="index.html">Voltar ao início</a></p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+  <script src="supabase.js"></script>
+  <script src="cadastro.js"></script>
+</body>
+</html>
