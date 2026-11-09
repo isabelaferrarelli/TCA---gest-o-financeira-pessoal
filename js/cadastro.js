@@ -17,29 +17,31 @@ form.addEventListener("submit", async (e) => {
   submitBtn.disabled = true;
   messageEl.textContent = "";
 
-  const { data, error } = await db.auth.signUp({
-    email,
-    password,
-    options: {
-      data: { nome },
-      emailRedirectTo: new URL("login.html", window.location.href).href,
-    },
-  });
+  try {
+    const { data, error } = await db.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { nome },
+        emailRedirectTo: new URL("login.html", window.location.href).href,
+      },
+    });
 
-  console.log("data:", data, "error:", error);
+    console.log("data:", data, "error:", error);
 
-  if (error) {
+    if (error) throw error;
+
+    messageEl.className = "message ok";
+    messageEl.textContent = data.session
+      ? "Conta criada! Redirecionando..."
+      : "Conta criada! Confirme pelo link enviado ao seu e-mail.";
+
+    if (data.session) setTimeout(() => (window.location.href = "painel.html"), 800);
+  } catch (err) {
+    console.error(err);
     messageEl.className = "message error";
-    messageEl.textContent = translateError(error.message);
+    messageEl.textContent = translateError(err.message || "Erro ao conectar com o Supabase.");
+  } finally {
     submitBtn.disabled = false;
-    return;
   }
-
-  messageEl.className = "message ok";
-  messageEl.textContent = data.session
-    ? "Conta criada! Redirecionando..."
-    : "Conta criada! Confirme pelo link enviado ao seu e-mail.";
-
-  if (data.session) setTimeout(() => (window.location.href = "painel.html"), 800);
-  else submitBtn.disabled = false;
 });

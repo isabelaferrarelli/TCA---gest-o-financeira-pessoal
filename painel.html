@@ -13,17 +13,18 @@
     <button id="logout-btn">Sair</button>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
   <script src="supabase.js"></script>
   <script>
     // Protege a página: sem sessão, volta para o login
     db.auth.getSession().then(({ data }) => {
-      if (!data.session) return (window.location.href = "index.html");
+      if (!data.session) return (window.location.href = "login.html");
       document.getElementById("user-email").textContent = data.session.user.email;
     });
+
     document.getElementById("logout-btn").addEventListener("click", async () => {
       await db.auth.signOut();
-      window.location.href = "index.html";
+      window.location.href = "login.html";
     });
   </script>
 </body>
