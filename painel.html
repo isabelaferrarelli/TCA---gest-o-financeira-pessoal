@@ -13,19 +13,21 @@
     <button id="logout-btn">Sair</button>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
-  <script src="supabase.js"></script>
-  <script>
-    // Protege a página: sem sessão, volta para o login
-    db.auth.getSession().then(({ data }) => {
-      if (!data.session) return (window.location.href = "login.html");
-      document.getElementById("user-email").textContent = data.session.user.email;
-    });
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
+<script src="js/supabase.js"></script>
+<script>
+  // Protege a página e garante a linha na tabela "usuario"
+  db.auth.getSession().then(async ({ data }) => {
+    if (!data.session) return (window.location.href = "login.html");
+    document.getElementById("user-email").textContent = data.session.user.email;
+    try { await garantirUsuario(data.session.user); } catch (e) { console.error(e); }
+  });
 
-    document.getElementById("logout-btn").addEventListener("click", async () => {
-      await db.auth.signOut();
-      window.location.href = "login.html";
-    });
-  </script>
+  document.getElementById("logout-btn").addEventListener("click", async () => {
+    await db.auth.signOut();
+    window.location.href = "logado.html";
+  });
+</script>
+
 </body>
 </html>

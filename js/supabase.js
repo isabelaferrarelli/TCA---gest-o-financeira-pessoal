@@ -11,3 +11,22 @@ function translateError(msg) {
   if (msg.includes("rate limit")) return "Muitas tentativas. Aguarde um pouco e tente de novo.";
   return msg;
 }
+
+// Cria a linha na tabela usuário
+async function garantirUsuario(user) {
+  const { data: existente, error: erroBusca } = await db
+    .from("usuario")
+    .select("id")
+    .eq("auth_id", user.id)
+    .maybeSingle();
+
+  if (erroBusca) throw erroBusca;
+  if (existente) return;
+
+  const { error } = await db.from("usuario").insert({
+    nome: (user.user_metadata && user.user_metadata.nome) || user.email.split("@")[0],
+    email: user.email,
+    auth_id: user.id,
+  });
+  if (error) throw error;
+}

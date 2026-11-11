@@ -1,12 +1,19 @@
-const PAGINA_APOS_LOGIN = "painel.html"; // troque pela página que quiser abrir após entrar
+const PAGINA_APOS_LOGIN = "painel.html";
 
 const form = document.getElementById("login-form");
 const messageEl = document.getElementById("message");
 const submitBtn = document.getElementById("submit-btn");
 
-// Se já estiver logado, vai direto para a página interna
-db.auth.getSession().then(({ data }) => {
-  if (data.session) window.location.href = PAGINA_APOS_LOGIN;
+// Se já estiver logado 
+db.auth.getSession().then(async ({ data }) => {
+  if (data.session) {
+    try {
+      await garantirUsuario(data.session.user);
+    } catch (e) {
+      console.error(e);
+    }
+    window.location.href = PAGINA_APOS_LOGIN;
+  }
 });
 
 form.addEventListener("submit", async (e) => {
@@ -24,8 +31,10 @@ form.addEventListener("submit", async (e) => {
   messageEl.textContent = "";
 
   try {
-    const { error } = await db.auth.signInWithPassword({ email, password });
+    const { data, error } = await db.auth.signInWithPassword({ email, password });
     if (error) throw error;
+
+    await garantirUsuario(data.user);
     window.location.href = PAGINA_APOS_LOGIN;
   } catch (err) {
     console.error(err);

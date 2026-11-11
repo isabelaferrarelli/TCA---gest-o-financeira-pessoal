@@ -25,9 +25,6 @@
         </header>
         <nav>
             <a href="#meio" onclick="document.querySelector('nav').classList.toggle('ativo')">Início</a>
-            <a href="#title1" onclick="document.querySelector('nav').classList.toggle('ativo')">Contas</a>
-            <a href="#categorias" onclick="document.querySelector('nav').classList.toggle('ativo')">Categorias</a>
-            <a href="#contato" onclick="document.querySelector('nav').classList.toggle('ativo')">Metas</a>
             <a href="cadastro.html" onclick="document.querySelector('nav').classList.toggle('ativo')">Cadastre-se</a>
             <a href="login.html" onclick="document.querySelector('nav').classList.toggle('ativo')">Login</a>
             <a href="#ft" onclick="document.querySelector('nav').classList.toggle('ativo')">Sobre</a>
@@ -35,50 +32,6 @@
     </div>
     
     <p id="meio">Gestão e organização das suas contas e despesas em um único lugar. Adicione seu saldo em suas contas bancárias, faça planejamentos e defina metas!</p>
-
-<div class="toolbar">
-    <h2 id="title1">Contas</h2>
-    <button class="btn" id="btnAdd">Adicionar conta</button>
-</div>
-
-<section id="lista" class="lista"></section>
-
-    <dialog id="dlg" aria-labelledby="dlgTitle">
-    <form id="form" method="dialog">
-    <h2 id="dlgTitle">Nova conta</h2>
-    <label>Nome da conta
-      <input type="text" id="nome" list="bancos" placeholder="Ex.: Nubank" maxlength="40" autocomplete="off">
-    </label>
-    <datalist id="bancos">
-      <option value="Nubank">
-      <option value="Itaú">
-      <option value="Bradesco">
-      <option value="Banco do Brasil">
-      <option value="Caixa">
-      <option value="Santander">
-      <option value="Inter">
-      <option value="Mercado Pago">
-      <option value="PicPay">
-      <option value="Sicredi">
-      <option value="Dinheiro em espécie">
-    </datalist><br>
-    <label>Tipo
-      <select id="tipo">
-        <option>Conta corrente</option>
-        <option>Poupança</option>
-      </select><br>
-    </label>
-    <label>Saldo atual
-      <input type="text" id="saldo" class="money num" inputmode="decimal" placeholder="R$ 0,00" autocomplete="off">
-    </label>
-    <div class="actions">
-  <button type="button" class="btn danger spacer" id="del" hidden>Excluir</button>
-  <button type="button" class="btn ghost" id="cancel">Cancelar</button>
-  <button type="submit" class="btn" id="save">Salvar conta</button>
-</div>
-  </form>
-</dialog>
-
 
 <footer>
     <p id="ft">Desenvolvedora: Isabela Ferrarelli Cunha<br>
