@@ -4,11 +4,11 @@ O BolsoLeve é uma plataforma de gestão financeira pessoal desenvolvida para si
 
 <h2>Funcionalidades Principais</h2>
 
-• Centralização de Contas: Acompanhe o saldo e o fluxo de diferentes contas bancárias em um único painel.
-• Controle de Gastos: Registre e categorize suas despesas diárias para entender para onde o seu dinheiro está indo.
-• Objetivos Financeiros: Crie, gerencie e acompanhe o progresso de suas metas de economia (ex: viagem, fundo de reserva, compra de bens).
+• Centralização de Contas: Acompanhe o saldo e o fluxo de diferentes contas bancárias em um único painel.<br>
+• Controle de Gastos: Registre e categorize suas despesas diárias para entender para onde o seu dinheiro está indo.<br>
+• Objetivos Financeiros: Crie, gerencie e acompanhe o progresso de suas metas de economia (ex: viagem, fundo de reserva, compra de bens).<br>
 
 <h2>Tecnologias Utilizadas</h2>
 
-• Frontend: HTML5, CSS3, JavaScript
-• Banco de Dados: Supabase(Banco de Dados e API)
+• Frontend: HTML5, CSS3, JavaScript<br>
+• Banco de Dados: Supabase(Banco de Dados e API)<br>

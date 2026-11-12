@@ -31,10 +31,21 @@ body {
   gap: 20px;
 }
  
-h1 { font-size: 1.6rem; letter-spacing: -0.01em; }
+h1 { 
+  font-size: 1.6rem; 
+  letter-spacing: -0.01em; 
+}
  
-form { display: grid; gap: 8px; }
-label { font-size: .9rem; font-weight: 500; margin-top: 8px; }
+form { 
+  display: grid;
+  gap: 8px; 
+}
+
+label { 
+  font-size: .9rem;
+  font-weight: 500;
+  margin-top: 8px;
+}
  
 input {
   width: 100%;

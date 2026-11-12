@@ -78,11 +78,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 8px 0 12px
-}
-
-.toolbar h2 {font: 1.3rem var(--letter-color);
-    margin: 0
+    text-indent: 10vw;
+    width: 90%
 }
 
 .btn {
@@ -102,6 +99,16 @@ dialog {
     background-color: var(--dialog);
     border-radius: var(--radius);
     border: 0;
-    padding:10px 18px
+    padding:10px 18px;
 }
 
+#form input,
+#form select {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 12px;
+  border: 1px solid #cfcfcf;
+  border-radius: var(--radius);
+  background: #fff;
+}
