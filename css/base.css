@@ -64,18 +64,4 @@ p {
   text-indent: 0px;
 }
 
-.separa {
-  background-color: var(--dialog);
-  width: 80%;
-  margin-left: 10vw;
-  border-radius: var(--radius);
-  height: auto;
-  padding-bottom: 20px;
-}
-
-.lista {
-    min-height: 0;   
-    display: grid;
-    gap: 12px;
-}
 

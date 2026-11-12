@@ -79,6 +79,54 @@
   </form>
 </dialog>
 
+<br>
+<br>
+
+<div class="separa1">
+<div class="toolbar1">
+    <h2 id="title1">Metas</h2>
+    <button class="btn1" id="btnAdd1">Adicionar meta</button>
+</div>
+
+<section id="lista1" class="lista1"></section>
+</div>
+
+    <dialog id="dlg" aria-labelledby="dlgTitle">
+    <form id="form" method="dialog">
+    <h2 id="dlgTitle">Nova conta</h2>
+    <label>Nome da conta
+      <input type="text" id="nome" list="bancos" placeholder="Ex.: Nubank" maxlength="40" autocomplete="off">
+    </label>
+    <datalist id="bancos">
+      <option value="Nubank">
+      <option value="Itaú">
+      <option value="Bradesco">
+      <option value="Banco do Brasil">
+      <option value="Caixa">
+      <option value="Santander">
+      <option value="Inter">
+      <option value="Mercado Pago">
+      <option value="PicPay">
+      <option value="Sicredi">
+      <option value="Dinheiro em espécie">
+    </datalist><br>
+    <label>Tipo
+      <select id="tipo">
+        <option>Conta corrente</option>
+        <option>Poupança</option>
+      </select><br>
+    </label>
+    <label>Saldo atual
+      <input type="text" id="saldo" class="money num" inputmode="decimal" placeholder="R$ 0,00" autocomplete="off">
+    </label>
+    <div class="actions">
+  <button type="button" class="btn danger spacer" id="del" hidden>Excluir</button>
+  <button type="button" class="btn ghost" id="cancel">Cancelar</button>
+  <button type="submit" class="btn" id="save">Salvar conta</button>
+</div>
+  </form>
+</dialog>
+
 <footer>
     <p id="ft">Desenvolvedora: Isabela Ferrarelli Cunha<br>
     Curso: Informática para Internet<br>
