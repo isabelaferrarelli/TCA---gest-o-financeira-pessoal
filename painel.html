@@ -17,14 +17,14 @@
 <script src="js/supabase.js"></script>
 <script>
   // Protege a página e garante a linha na tabela "usuario"
-  db.auth.getSession().then(async ({ data }) => {
+  sb.auth.getSession().then(async ({ data }) => {
     if (!data.session) return (window.location.href = "login.html");
     document.getElementById("user-email").textContent = data.session.user.email;
     try { await garantirUsuario(data.session.user); } catch (e) { console.error(e); }
   });
 
   document.getElementById("logout-btn").addEventListener("click", async () => {
-    await db.auth.signOut();
+    await sb.auth.signOut();
     window.location.href = "logado.html";
   });
 </script>

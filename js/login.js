@@ -1,11 +1,29 @@
-const PAGINA_APOS_LOGIN = "painel.html";
+const PAGINA_APOS_LOGIN = "logado.html";
 
 const form = document.getElementById("login-form");
 const messageEl = document.getElementById("message");
 const submitBtn = document.getElementById("submit-btn");
 
-// Se já estiver logado 
-db.auth.getSession().then(async ({ data }) => {
+// Garante que o usuário logado exista na tabela "usuario"
+async function garantirUsuario(user) {
+  // Nome vindo do cadastro (user_metadata) ou, na falta, a parte antes do @ do e-mail
+  const nome =
+    user.user_metadata?.nome ||
+    user.user_metadata?.full_name ||
+    user.email.split("@")[0];
+
+  const { error } = await sb
+    .from("usuario")
+    .upsert(
+      { id: user.id, nome: nome, email: user.email },
+      { onConflict: "id", ignoreDuplicates: true }
+    );
+
+  if (error) throw error;
+}
+
+// Se já estiver logado
+sb.auth.getSession().then(async ({ data }) => {
   if (data.session) {
     try {
       await garantirUsuario(data.session.user);
@@ -31,7 +49,7 @@ form.addEventListener("submit", async (e) => {
   messageEl.textContent = "";
 
   try {
-    const { data, error } = await db.auth.signInWithPassword({ email, password });
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
     if (error) throw error;
 
     await garantirUsuario(data.user);
