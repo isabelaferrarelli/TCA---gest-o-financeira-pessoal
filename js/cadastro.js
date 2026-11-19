@@ -36,7 +36,7 @@ form.addEventListener("submit", async (e) => {
       ? "Conta criada! Redirecionando..."
       : "Conta criada! Confirme pelo link enviado ao seu e-mail.";
 
-    if (data.session) setTimeout(() => (window.location.href = "logado.html"), 800);
+    if (data.session) setTimeout(() => (window.location.href = "login.html"), 800);
   } catch (err) {
     console.error(err);
     messageEl.className = "message error";

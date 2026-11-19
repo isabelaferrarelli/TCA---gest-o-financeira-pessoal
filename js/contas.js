@@ -209,7 +209,7 @@ document.getElementById('btnSair').addEventListener('click', async (e) => {
   }
   usuarioAtual = session.user;
 
-  // mostra o nome do usuário no cabeçalho (opcional)
+  // mostra o nome do usuário do lado do BolsoLeve
   const { data: perfil } = await sb
     .from('usuario')
     .select('nome')
