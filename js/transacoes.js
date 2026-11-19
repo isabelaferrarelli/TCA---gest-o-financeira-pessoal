@@ -276,15 +276,6 @@ form2.addEventListener('submit', async (e) => {
     conta2.focus();
     return;
   }
-  if (Number.isNaN(dados.tipo)) {
-    alert('Tipo de transação inválido. Recarregue a página e tente de novo.');
-    return;
-  }
-  if (dados.valor <= 0) {
-    alert('O valor precisa ser maior que zero.');
-    valor2.focus();
-    return;
-  }
 
   try {
     if (editandoId2) {

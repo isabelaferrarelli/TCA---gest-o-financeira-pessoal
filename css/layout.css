@@ -67,13 +67,14 @@ body {
     font-size: 17px;
 }
 
-.toolbar , .toolbar1, .toolbar2{
+
+.toolbar, .toolbar1, .toolbar2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    text-indent: 10vw;
-    width: 90%
+    width: 100%;
 }
+
 
 .btn, .btn1, .btn2{
     border: 0;
@@ -84,7 +85,7 @@ body {
     color: white
 }
 
-.btn:hover, .btn1:hover, .bnt2:hover{
+.btn:hover, .btn1:hover, .btn2:hover{
         background: #7540b1;
 }
 
@@ -110,19 +111,51 @@ dialog {
   background: #fff;
 }
 
-.separa , .separa1, .separa2{
-  background-color: var(--dialog);
-  width: 80%;
-  margin-left: 10vw;
-  border-radius: var(--radius);
-  height: auto;
-  padding-bottom: 20px;
-  margin-left: 5vw;
+.separa, .separa1, .separa2 {
+    background-color: var(--dialog);
+    width: 85%;
+    max-width: 1000px;
+    margin: 0 auto;
+    border-radius: var(--radius);
+    padding: 0 20px 20px;
+    box-sizing: border-box;
 }
 
-.lista , .lista1, .lista2 {
-    min-height: 0;   
+.lista, .lista1, .lista2 {
     display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 12px;
-    margin-left: 5vw;
+    margin: 16px 0 0;
+}
+
+.card-conta {
+    background: var(--background-color);
+    border-left: 4px solid var(--borda);
+    border-radius: 10px;
+    padding: 14px;
+}
+
+.card-conta h3 {
+    margin: 0 0 4px;
+}
+
+.card-conta p {
+    margin: 2px 0;
+}
+
+.card-conta .saldo {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--letter-color);
+}
+
+.vazio {
+    grid-column: 1 / -1;
+    text-align: center;
+}
+
+h2, p {
+    text-indent: 2vw;
+    margin-left: 1vw;
+    margin-right: 1vw;
 }

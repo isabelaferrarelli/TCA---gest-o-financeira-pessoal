@@ -49,6 +49,20 @@ async function carregarTipos() {
   });
 }
 
+// soma dos saldos feita no banco (SUM), pela função saldo_total()
+async function carregarSaldoTotal() {
+  const { data, error } = await sb.rpc('saldo_total');
+  if (error) {
+    console.error(error);
+    alert('Erro ao calcular o saldo total.');
+    return;
+  }
+
+  const total = Number(data) || 0;
+  saldoTotal.textContent = fmt.format(total);
+  saldoTotal.classList.toggle('negativo', total < 0);
+}
+
 async function carregarContas() {
   const { data, error } = await sb
     .from('contas_carteira')
@@ -70,6 +84,7 @@ async function carregarContas() {
     tipoNome: c.tipo_conta?.nome || '' // nome para exibir
   }));
   mostra();
+  await carregarSaldoTotal();
 }
 
 async function inserirConta(dados) {
@@ -100,11 +115,6 @@ async function excluirConta(id) {
 // ---------- mostrar na tela ----------
 function mostra() {
   lista.innerHTML = '';
-
-  // soma o saldo de todas as contas
-  const total = contas.reduce((soma, c) => soma + c.saldo, 0);
-  saldoTotal.textContent = fmt.format(total);
-  saldoTotal.classList.toggle('negativo', total < 0);
 
   if (contas.length === 0) {
     lista.innerHTML = '<p class="vazio">Nenhuma conta cadastrada ainda.</p>';
@@ -156,6 +166,12 @@ document.getElementById('cancel').addEventListener('click', () => dlg.close());
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
+  if (!usuarioAtual) {
+    alert('Sessão não encontrada. Faça login novamente.');
+    location.href = 'login.html';
+    return;
+  }
+
   if (!nome.value.trim()) {
     nome.focus();
     return;
@@ -167,13 +183,18 @@ form.addEventListener('submit', async (e) => {
     saldo: parseMoeda(saldo.value)
   };
 
+  if (Number.isNaN(dados.tipo)) {
+    alert('Tipo de conta inválido. Recarregue a página e tente de novo.');
+    return;
+  }
+
   try {
     if (editandoId) {
       await atualizarConta(editandoId, dados);
     } else {
       await inserirConta(dados);
     }
-    await carregarContas();
+    await carregarContas(); // recarrega a lista e o saldo total
     dlg.close();
   } catch (err) {
     console.error(err);
@@ -185,16 +206,20 @@ btnDel.addEventListener('click', async () => {
   if (!confirm('Excluir esta conta?')) return;
   try {
     await excluirConta(editandoId);
-    await carregarContas();
+    await carregarContas(); // recarrega a lista e o saldo total
     dlg.close();
   } catch (err) {
     console.error(err);
-    alert('Erro ao excluir: ' + err.message);
+    if (err.code === '23503') {
+      alert('Esta conta tem transações. Exclua as transações dela primeiro.');
+    } else {
+      alert('Erro ao excluir: ' + err.message);
+    }
   }
 });
 
 // ---------- sair ----------
-document.getElementById('btnSair').addEventListener('click', async (e) => {
+document.getElementById('btnSair')?.addEventListener('click', async (e) => {
   e.preventDefault();
   await sb.auth.signOut();
   location.href = 'login.html';
