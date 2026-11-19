@@ -29,6 +29,7 @@
             <a href="#categorias" onclick="document.querySelector('nav').classList.toggle('ativo')">Categorias</a>
             <a href="#contato" onclick="document.querySelector('nav').classList.toggle('ativo')">Metas</a>
             <a href="#ft" onclick="document.querySelector('nav').classList.toggle('ativo')">Sobre</a>
+            <a href="#" id="btnSair">Sair</a>
         </nav>
     </div>
     
@@ -97,6 +98,10 @@
     <h2 id="dlgTitle1">Nova meta</h2>
 
     <label>Nome da meta
+      <input type="text" id="nomem" maxlength="255" autocomplete="off">
+    </label>
+
+    <label>Categoria da meta
       <input type="text" id="nome1" list="metas" placeholder="Ex.: Moradia" maxlength="40" autocomplete="off">
     </label>
     <datalist id="metas">
