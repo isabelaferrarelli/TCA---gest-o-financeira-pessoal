@@ -11,7 +11,7 @@ const saldoTotal = document.getElementById('saldoTotal');
 
 let contas = [];          // lista de contas (vinda do Supabase)
 let tipos = [];           // lista de tipo_conta
-let editandoId = null;    // id da conta em edição (null = nova)
+let editandoId = null;    // id da conta em edição
 let usuarioAtual = null;  // usuário logado
 
 // ---------- formatação e digitação de valor ----------
@@ -23,13 +23,13 @@ function parseMoeda(txt) {
   return parseFloat(n) || 0;
 }
 
-// formata enquanto digita
+// formata enquanto digita 
 saldo.addEventListener('input', () => {
   const digitos = saldo.value.replace(/\D/g, '');
   saldo.value = digitos ? fmt.format(parseInt(digitos, 10) / 100) : '';
 });
 
-// ---------- Supabase ----------
+// carrega os tipos de conta com sql
 async function carregarTipos() {
   const { data, error } = await sb.from('tipo_conta').select('id, nome').order('id');
   if (error) {
@@ -39,7 +39,7 @@ async function carregarTipos() {
   }
   tipos = data;
 
-  // preenche o <select> com value = id do tipo
+  // preenche o select com os tipos de conta 
   tipo.innerHTML = '';
   tipos.forEach(t => {
     const opt = document.createElement('option');
@@ -49,7 +49,7 @@ async function carregarTipos() {
   });
 }
 
-// soma dos saldos feita no banco (SUM), pela função saldo_total()
+//soma dos saldos feita no banco
 async function carregarSaldoTotal() {
   const { data, error } = await sb.rpc('saldo_total');
   if (error) {
@@ -58,12 +58,11 @@ async function carregarSaldoTotal() {
     return;
   }
 
-  const total = Number(data) || 0;
+  const total = Number(data) || 0; //converte para número e mostra formatado
   saldoTotal.textContent = fmt.format(total);
-  saldoTotal.classList.toggle('negativo', total < 0);
 }
 
-async function carregarContas() {
+async function carregarContas() { //pega os dados para mostrar no front (se o id for o mesmo do login)
   const { data, error } = await sb
     .from('contas_carteira')
     .select('id, nome, saldo, tipo, tipo_conta(nome)')
@@ -76,21 +75,22 @@ async function carregarContas() {
     return;
   }
 
-  contas = data.map(c => ({
+  contas = data.map(c => ({ //lista com o formato esperado
     id: c.id,
     nome: c.nome,
     saldo: Number(c.saldo),
-    tipo: c.tipo,                      // id (smallint)
-    tipoNome: c.tipo_conta?.nome || '' // nome para exibir
+    tipo: c.tipo,
+    tipoNome: c.tipo_conta?.nome || ''
   }));
   mostra();
-  await carregarSaldoTotal();
+  await carregarSaldoTotal(); //atualiza
 }
 
+//---------inserts, updates e deletes
 async function inserirConta(dados) {
   const { error } = await sb
     .from('contas_carteira')
-    .insert({ ...dados, id_usuario: usuarioAtual.id });
+    .insert({ ...dados, id_usuario: usuarioAtual.id }); //operador spread
   if (error) throw error;
 }
 
@@ -130,7 +130,7 @@ function mostra() {
       <p class="saldo"></p>
       <button class="btn ghost" data-id="${conta.id}">Editar</button>
     `;
-    // textContent evita injeção de HTML
+    // textContent evita injeção de códigos no html, faz virar texto puro
     card.querySelector('h3').textContent = conta.nome;
     card.querySelector('.tipo').textContent = conta.tipoNome;
     card.querySelector('.saldo').textContent = fmt.format(conta.saldo);
@@ -141,7 +141,7 @@ function mostra() {
 }
 
 // ---------- dialog ----------
-function abrirNovo() {
+function abrirNovo() { //limpa o id da conta para fazer uma nova
   editandoId = null;
   titulo.textContent = 'Nova conta';
   form.reset();
@@ -149,7 +149,7 @@ function abrirNovo() {
   dlg.showModal();
 }
 
-function abrirEdicao(id) {
+function abrirEdicao(id) { //acha o id da conta para poder editar
   const c = contas.find(x => x.id === id);
   editandoId = id;
   titulo.textContent = 'Editar conta';
@@ -188,6 +188,7 @@ form.addEventListener('submit', async (e) => {
     return;
   }
 
+//roda as funções de inserir e atualizar a conta
   try {
     if (editandoId) {
       await atualizarConta(editandoId, dados);
@@ -202,6 +203,7 @@ form.addEventListener('submit', async (e) => {
   }
 });
 
+//excluindo a conta
 btnDel.addEventListener('click', async () => {
   if (!confirm('Excluir esta conta?')) return;
   try {
@@ -210,7 +212,7 @@ btnDel.addEventListener('click', async () => {
     dlg.close();
   } catch (err) {
     console.error(err);
-    if (err.code === '23503') {
+    if (err.code === '23503') { //erro de exclusão de fk do postgres
       alert('Esta conta tem transações. Exclua as transações dela primeiro.');
     } else {
       alert('Erro ao excluir: ' + err.message);
@@ -225,7 +227,7 @@ document.getElementById('btnSair')?.addEventListener('click', async (e) => {
   location.href = 'login.html';
 });
 
-// ---------- início ----------
+// await só pode ser usado dentro de async (pegar o que preciso ao carregar a página)
 (async () => {
   const { data: { session } } = await sb.auth.getSession();
   if (!session) {
@@ -239,11 +241,11 @@ document.getElementById('btnSair')?.addEventListener('click', async (e) => {
     .from('usuario')
     .select('nome')
     .eq('id', usuarioAtual.id)
-    .maybeSingle();
+    .maybeSingle(); //no máximo uma linha
   if (perfil?.nome) {
     document.querySelector('header h1').textContent = `BolsoLeve · ${perfil.nome}`;
   }
 
-  await carregarTipos();
-  await carregarContas();
+  await carregarTipos(); //carrega para os selects
+  await carregarContas();//carrega na tela
 })();

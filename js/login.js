@@ -6,24 +6,24 @@ const submitBtn = document.getElementById("submit-btn");
 
 // Garante que o usuário logado exista na tabela "usuario"
 async function garantirUsuario(user) {
-  // Nome vindo do cadastro (user_metadata) ou, na falta, a parte antes do @ do e-mail
+  //Nome do cadastro ou o email sem @ (se dá undefined, passa pro próximo)
   const nome =
     user.user_metadata?.nome ||
-    user.user_metadata?.full_name ||
     user.email.split("@")[0];
 
+//Grava na tabela que eu fiz (insert com update)
   const { error } = await sb
     .from("usuario")
     .upsert(
       { id: user.id, nome: nome, email: user.email },
-      { onConflict: "id", ignoreDuplicates: true }
+      { onConflict: "id", ignoreDuplicates: true } //quando já existe, não faz nada
     );
 
-  if (error) throw error;
+  if (error) throw error; //vai pro catch
 }
 
-// Se já estiver logado
-sb.auth.getSession().then(async ({ data }) => {
+//Se o ser que está no site já fez o login
+sb.auth.getSession().then(async ({ data }) => { //consulta se tem sessão salva
   if (data.session) {
     try {
       await garantirUsuario(data.session.user);
@@ -39,20 +39,23 @@ form.addEventListener("submit", async (e) => {
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
 
+  //validação
   if (!email || !password) {
     messageEl.className = "message error";
     messageEl.textContent = "Preencha e-mail e senha.";
     return;
   }
 
+  //zera a mensagem e a ativação do botão
   submitBtn.disabled = true;
   messageEl.textContent = "";
 
+//envia o email e a senha para o supabase e vê se está certo
   try {
     const { data, error } = await sb.auth.signInWithPassword({ email, password });
-    if (error) throw error;
+    if (error) throw error; //joga o erro para o catch
 
-    await garantirUsuario(data.user);
+    await garantirUsuario(data.user); //bota a linha em usuário e redireciona
     window.location.href = PAGINA_APOS_LOGIN;
   } catch (err) {
     console.error(err);
