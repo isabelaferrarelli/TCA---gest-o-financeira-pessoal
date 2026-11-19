@@ -154,7 +154,7 @@ dialog {
     text-align: center;
 }
 
-h2, p {
+h2, h3, p {
     text-indent: 2vw;
     margin-left: 1vw;
     margin-right: 1vw;
