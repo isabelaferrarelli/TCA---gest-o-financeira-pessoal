@@ -1,0 +1,41 @@
+"CREATE POLICY ""Usuário lê o próprio registro"" ON public.usuario AS PERMISSIVE FOR SELECT TO  USING ((auth.uid() = id));"
+
+"CREATE POLICY ""Usuário insere o próprio registro"" ON public.usuario AS PERMISSIVE FOR INSERT TO  WITH CHECK ((auth.uid() = id));"
+
+"CREATE POLICY ""Usuário atualiza o próprio registro"" ON public.usuario AS PERMISSIVE FOR UPDATE TO  USING ((auth.uid() = id));"
+
+"CREATE POLICY ""transacoes_select"" ON public.transacoes AS PERMISSIVE FOR SELECT TO authenticated USING ((id_usuario = auth.uid()));"
+
+"CREATE POLICY ""transacoes_insert"" ON public.transacoes AS PERMISSIVE FOR INSERT TO authenticated WITH CHECK ((id_usuario = auth.uid()));"
+
+"CREATE POLICY ""transacoes_update"" ON public.transacoes AS PERMISSIVE FOR UPDATE TO authenticated USING ((id_usuario = auth.uid())) WITH CHECK ((id_usuario = auth.uid()));"
+
+"CREATE POLICY ""transacoes_delete"" ON public.transacoes AS PERMISSIVE FOR DELETE TO authenticated USING ((id_usuario = auth.uid()));"
+
+"CREATE POLICY ""Consultar proprio usuario"" ON public.usuario AS PERMISSIVE FOR SELECT TO authenticated USING ((id = auth.uid()));"
+
+"CREATE POLICY ""usuario_select_proprio"" ON public.usuario AS PERMISSIVE FOR SELECT TO  USING ((id = auth.uid()));"
+
+"CREATE POLICY ""usuario_update_proprio"" ON public.usuario AS PERMISSIVE FOR UPDATE TO  USING ((id = auth.uid())) WITH CHECK ((id = auth.uid()));"
+
+"CREATE POLICY ""contas_select"" ON public.contas_carteira AS PERMISSIVE FOR SELECT TO  USING ((id_usuario = auth.uid()));"
+
+"CREATE POLICY ""contas_insert"" ON public.contas_carteira AS PERMISSIVE FOR INSERT TO  WITH CHECK ((id_usuario = auth.uid()));"
+
+"CREATE POLICY ""contas_update"" ON public.contas_carteira AS PERMISSIVE FOR UPDATE TO  USING ((id_usuario = auth.uid())) WITH CHECK ((id_usuario = auth.uid()));"
+
+"CREATE POLICY ""contas_delete"" ON public.contas_carteira AS PERMISSIVE FOR DELETE TO  USING ((id_usuario = auth.uid()));"
+
+"CREATE POLICY ""tipos_select"" ON public.tipo_conta AS PERMISSIVE FOR SELECT TO  USING (true);"
+
+"CREATE POLICY ""categorias_select"" ON public.categorias AS PERMISSIVE FOR SELECT TO  USING (true);"
+
+"CREATE POLICY ""metas_select"" ON public.metas AS PERMISSIVE FOR SELECT TO authenticated USING ((id_usuario = auth.uid()));"
+
+"CREATE POLICY ""metas_insert"" ON public.metas AS PERMISSIVE FOR INSERT TO authenticated WITH CHECK ((id_usuario = auth.uid()));"
+
+"CREATE POLICY ""metas_update"" ON public.metas AS PERMISSIVE FOR UPDATE TO authenticated USING ((id_usuario = auth.uid())) WITH CHECK ((id_usuario = auth.uid()));"
+
+"CREATE POLICY ""metas_delete"" ON public.metas AS PERMISSIVE FOR DELETE TO authenticated USING ((id_usuario = auth.uid()));"
+
+"CREATE POLICY ""tipo_transacoes_select"" ON public.tipo_transacoes AS PERMISSIVE FOR SELECT TO  USING (true);"
