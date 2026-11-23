@@ -2,32 +2,30 @@ const btnAdd1 = document.querySelector('#btnAdd1');
 const dlg1    = document.getElementById('dlg1');
 const form1   = document.getElementById('form1');
 const lista1  = document.getElementById('lista1');
-const nomeMeta   = document.getElementById('nomem');   // nome da meta
-const categoria1 = document.getElementById('nome1');   // categoria (texto)
-const listaCategorias = document.getElementById('metas'); // datalist
+const nomeMeta   = document.getElementById('nomem');//nome da meta
+const categoria1 = document.getElementById('nome1');//categoria
+const listaCategorias = document.getElementById('metas'); //listinha que aparece
 const valor1  = document.getElementById('valor1');
 const btnDel1 = document.getElementById('del1');
 const titulo1 = document.getElementById('dlgTitle1');
 
-let metas = [];             // lista de metas (vinda do Supabase)
-let categorias = [];        // lista de categorias
-let editandoId1 = null;     // id da meta em edição (null = nova)
-let usuarioMetas = null;    // usuário logado
+let metas = [];//lista de metas do Supabase
+let categorias = [];//lista de categorias
+let editandoId1 = null; //id da meta em edição
+let usuarioMetas = null;//usuário logado
 
-// fmt e parseMoeda vêm do contas.js (que precisa ser carregado antes)
-
-// compara textos sem acento e sem diferenciar maiúsculas
+//tira acentos, espaços e maiúsculas
 function norm(s) {
   return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
 }
 
-// ---------- digitação de valor na meta ----------
+//para aparecer na meta em formato de dinheiro
 valor1.addEventListener('input', () => {
   const digitos = valor1.value.replace(/\D/g, '');
   valor1.value = digitos ? fmt.format(parseInt(digitos, 10) / 100) : '';
 });
 
-// ---------- Supabase ----------
+//carrega as categorias no site
 async function carregarCategorias() {
   const { data, error } = await sb.from('categorias').select('id, nome').order('nome');
   if (error) {
@@ -37,7 +35,7 @@ async function carregarCategorias() {
   }
   categorias = data;
 
-  // preenche as sugestões do campo de categoria
+  //coloca as categorias nas sugestões
   listaCategorias.innerHTML = '';
   categorias.forEach(c => {
     const opt = document.createElement('option');
@@ -49,8 +47,8 @@ async function carregarCategorias() {
 async function carregarMetas() {
   const { data, error } = await sb
     .from('metas')
-    .select('id, nome, id_categoria, valor_limite, categorias(nome)')
-    .eq('id_usuario', usuarioMetas.id)
+    .select('id, nome, id_categoria, valor_limite, categorias(nome)')//(join??)
+    .eq('id_usuario', usuarioMetas.id)//só as da pessoa logada
     .order('id');
 
   if (error) {
@@ -59,7 +57,7 @@ async function carregarMetas() {
     return;
   }
 
-  metas = data.map(m => ({
+  metas = data.map(m => ({//lista no formato que meu código vai usar
     id: m.id,
     nome: m.nome,
     categoriaNome: m.categorias?.nome || '',
@@ -91,9 +89,9 @@ async function excluirMeta(id) {
     .eq('id', id)
     .eq('id_usuario', usuarioMetas.id);
   if (error) throw error;
-}
+}//só pegam se deu erro, se não é null
 
-// ---------- mostrar na tela ----------
+//mostra na tela
 function mostra1() {
   lista1.innerHTML = '';
 
@@ -125,7 +123,7 @@ function mostra1() {
 function abrirNovo1() {
   editandoId1 = null;
   titulo1.textContent = 'Nova meta';
-  form1.reset();            // limpa os campos
+  form1.reset();//limpa tudo para adicionar mais metas
   btnDel1.hidden = true;
   dlg1.showModal();
 }
@@ -138,7 +136,7 @@ function abrirEdicao1(id) {
   categoria1.value = m.categoriaNome;
   valor1.value     = fmt.format(m.valor);
   btnDel1.hidden = false;
-  dlg1.showModal();
+  dlg1.showModal();//acha o id da meta e mostra o botão de excluir
 }
 
 btnAdd1.addEventListener('click', abrirNovo1);
@@ -158,7 +156,7 @@ form1.addEventListener('submit', async (e) => {
     return;
   }
 
-  // converte o texto da categoria no id da tabela categorias
+  //converte o nome para o id, procura o nome que passa pela função de tirar frufru e procura um igual
   const cat = categorias.find(c => norm(c.nome) === norm(categoria1.value));
   if (!cat) {
     alert('Categoria não encontrada. Escolha uma das opções sugeridas.');
@@ -169,8 +167,8 @@ form1.addEventListener('submit', async (e) => {
   const dados = {
     nome: nomeMeta.value.trim(),
     id_categoria: cat.id,
-    valor_limite: parseMoeda(valor1.value)
-  };
+    valor_limite: parseMoeda(valor1.value)//converte em inteiro
+  };//arranja em um objeto só os dados das metas
 
   if (dados.valor_limite <= 0) {
     alert('O valor precisa ser maior que zero.');
@@ -178,7 +176,7 @@ form1.addEventListener('submit', async (e) => {
     return;
   }
 
-  try {
+  try { //tenta atualizar, depois insere, dialog só fecha se deu certo
     if (editandoId1) {
       await atualizarMeta(editandoId1, dados);
     } else {
@@ -196,7 +194,7 @@ form1.addEventListener('submit', async (e) => {
   }
 });
 
-btnDel1.addEventListener('click', async () => {
+btnDel1.addEventListener('click', async () => {//sim ou não para excluir, recarrega a lista
   if (!confirm('Excluir esta meta?')) return;
   try {
     await excluirMeta(editandoId1);
@@ -208,14 +206,14 @@ btnDel1.addEventListener('click', async () => {
   }
 });
 
-// ---------- início ----------
+//para iniciar, vê se tem alguém logado, se não vai pro login, já pega a session dentro do data
 (async () => {
   const { data: { session } } = await sb.auth.getSession();
   if (!session) {
     location.href = 'login.html';
     return;
   }
-  usuarioMetas = session.user;
-  await carregarCategorias();
+  usuarioMetas = session.user; //guarda o usuário
+  await carregarCategorias(); //carrega as cateegorias antes das metas, pra não dar erro
   await carregarMetas();
 })();
